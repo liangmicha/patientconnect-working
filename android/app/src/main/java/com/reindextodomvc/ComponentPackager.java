@@ -18,6 +18,7 @@ public class ComponentPackager implements ReactPackage {
     List<NativeModule> modules = new ArrayList<>();
 
     modules.add(new MyCustomModule(reactContext));
+    modules.add(new PubNubModule(reactContext));
 
     return modules;
   }
