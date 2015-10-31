@@ -5,6 +5,7 @@ const {
   StyleSheet,
   Text,
   View,
+  TouchableNativeFeedback,
 } = React;
 
 const styles = StyleSheet.create({
@@ -22,11 +23,21 @@ const styles = StyleSheet.create({
 });
 
 class TodoCount extends React.Component {
+  _onPressButton() {
+    console.log("button pressed!");
+  }
   render() {
     const { count } = this.props.viewer.allTodos;
     return (
       <View style={styles.container}>
         <Text style={styles.count}>{count} todos in total.</Text>
+        <Text>weeee</Text>
+        <TouchableNativeFeedback
+            onPress={this._onPressButton}>
+          <View style={{width: 150, height: 100, backgroundColor: 'red'}}>
+            <Text style={{margin: 30}}>Button</Text>
+          </View>
+        </TouchableNativeFeedback>
       </View>
     );
   }
