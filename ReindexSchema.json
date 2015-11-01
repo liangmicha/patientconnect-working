@@ -34,5 +34,39 @@
         "type": "Boolean"
       }
     ]
+  },
+  {
+    "name": "Profile",
+    "kind": "OBJECT",
+    "interfaces": [
+      "Node"
+    ],
+    "fields": [
+      {
+        "name": "id",
+        "type": "ID",
+        "nonNull": true
+      },
+      {
+        "name": "username",
+        "type": "String",
+        "nonNull": true
+      },
+      {
+        "name": "age",
+        "type": "Int",
+        "nonNull": true
+      },
+      {
+        "name": "gender",
+        "type": "String",
+        "nonNull": true
+      },
+      {
+        "name": "languages",
+        "type": "List",
+        "ofType": "String"
+      }
+    ]
   }
 ]
