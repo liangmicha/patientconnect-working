@@ -29,7 +29,7 @@ SCENES_STATE_MACHINE = {
   },
   'Survey': {
       'Previous': 'Welcome3',
-      'Next': 'MainView',
+      'Next': 'MainView_default',
   }
 }
 
@@ -78,8 +78,11 @@ class MySceneComponent extends React.Component {
               </SurveyForm>
           );
         } else if (this.props.name.indexOf('MainView') == 0) {
+          var lst = this.props.name.split('_');
+          // TODO make sure list is 2. If not you are in big trouble :(
+          var whichTab = lst[1];
           return (
-              <MainView>
+              <MainView whichTab={whichTab} onGoto={this.props.onGoto} mainViewName={this.props.name}>
               </MainView>
           );
         } else {
@@ -122,6 +125,13 @@ var LandingCard = React.createClass({
                               if (route.index > 0) {
                                   navigator.pop();
                               }
+                          }}
+                          onGoto={(routeName) => {
+                            var nextIndex = route.index + 1;
+                            navigator.push({
+                               name: routeName,
+                               index: nextIndex,
+                            });
                           }}
                           index={route.index}
                           >
