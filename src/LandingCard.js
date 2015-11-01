@@ -143,7 +143,7 @@ var LandingCard = React.createClass({
                         return route.sceneConfig;
                     }
                     // TODO figure out the ideal SceneConfig.
-                    return Navigator.SceneConfigs.FloatFromRight;
+                    return Navigator.SceneConfigs.FadeAndroid;
                 }}>
             </Navigator>
         );
@@ -173,7 +173,7 @@ export default Relay.createContainer(LandingCard, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on ReindexViewer {
-        allTodos(first: 100) {
+        allTodos(first: 1) {
           count,
         }
       }
