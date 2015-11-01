@@ -1,6 +1,7 @@
 import React from 'react-native';
 import Relay from 'react-relay';
 import SurveyForm from './SurveyForm';
+import MainView from './MainView';
 
 const {
   BackAndroid,
@@ -25,6 +26,10 @@ SCENES_STATE_MACHINE = {
   'Welcome3': {
       'Previous': 'Welcome2',
       'Next': 'Survey',
+  },
+  'Survey': {
+      'Previous': 'Welcome3',
+      'Next': 'MainView',
   }
 }
 
@@ -45,58 +50,7 @@ BackAndroid.addEventListener('hardwareBackPress', function() {
 });
 
 
-// var SurveyForm = React.createClass({
-//   onPressSubmit: function() {
-//     var state = 'First name: ' + this.state.firstName + '\n' +
-//                 'Last name: ' + this.state.lastName + '\n' +
-//                 'Phone number: ' + this.state.phoneNumber;
-//     NativeModules.MyCustomModule.show(state);
-//     var completed = true;
-//     if (completed) {
 
-//     }
-//   },
-//   getInitialState() {
-//     return {
-//       firstName: '',
-//       lastName: '',
-//       phoneNumber: '',
-//     }
-//   },
-//   render() {
-//     console.log("here is the state" + this.state);
-//     return (
-//       <View>
-//         <TextInput
-//           placeholder='First Name'
-//           value={this.state.firstName}
-//           onChangeText={(text) => this.setState({
-//             firstName: text
-//           })}>
-//         </TextInput>
-//         <TextInput
-//           placeholder='Last Name'
-//           value={this.state.lastName}
-//           onChangeText={(text) => this.setState({
-//             lastName: text
-//           })}>
-//         </TextInput>
-//         <TextInput
-//           placeholder='Phone Number'
-//           value={this.state.phoneNumber}
-//           onChangeText={(text) => this.setState({
-//             phoneNumber: text
-//           })}
-//           keyboardType='numeric'>
-//         </TextInput>
-//         <TouchableHighlight
-//           onPress={this.onPressSubmit}>
-//           <Text>Add a new item</Text>
-//         </TouchableHighlight>
-//       </View>
-//     );
-//   }
-// });
 
 /**
  * @class
@@ -120,8 +74,13 @@ class MySceneComponent extends React.Component {
           );
         } else if (this.props.name.indexOf('Survey') == 0) {
           return (
-              <SurveyForm>
+              <SurveyForm onSubmit={this.props.onForward}>
               </SurveyForm>
+          );
+        } else if (this.props.name.indexOf('MainView') == 0) {
+          return (
+              <MainView>
+              </MainView>
           );
         } else {
           return (
@@ -136,7 +95,7 @@ class MySceneComponent extends React.Component {
 }
 
 
-var LandingView = React.createClass({
+var LandingCard = React.createClass({
     _onRef: function (ref, indexInStack) {
         console.log(ref);
     },
@@ -200,7 +159,7 @@ var styles = StyleSheet.create({
     forward: {}
 });
 
-export default Relay.createContainer(LandingView, {
+export default Relay.createContainer(LandingCard, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on ReindexViewer {

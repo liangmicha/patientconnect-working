@@ -1,4 +1,4 @@
-package com.reindextodomvc;
+package com.patientconnect;
 
 import android.app.Activity;
 import android.os.Bundle;

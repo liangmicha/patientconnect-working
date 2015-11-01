@@ -1,4 +1,4 @@
-package com.reindextodomvc;
+package com.patientconnect;
 
 import java.util.ArrayList;
 import java.util.List;
