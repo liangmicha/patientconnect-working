@@ -1,6 +1,7 @@
-import React from 'react-native';
-import Relay from 'react-relay';
-import Reindex from 'reindex-js';
+'use strict';
+var React = require('react-native');
+var Relay = require('react-relay');
+var Reindex = require('reindex-js');
 
 import AppRoute from './AppRoute';
 import TodoCount from './TodoCount';

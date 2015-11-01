@@ -31,7 +31,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
                 .setInitialLifecycleState(LifecycleState.RESUMED)
                 .build();
 
-        mReactRootView.startReactApplication(mReactInstanceManager, "ReindexTodoMVC", null);
+        mReactRootView.startReactApplication(mReactInstanceManager, "App", null);
 
         setContentView(mReactRootView);
     }
@@ -67,4 +67,14 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
             mReactInstanceManager.onResume(this);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        if (mReactInstanceManager != null) {
+            mReactInstanceManager.onBackPressed();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 }

@@ -1,49 +1,206 @@
 import React from 'react-native';
 import Relay from 'react-relay';
+import SurveyForm from './SurveyForm';
 
 const {
+  BackAndroid,
   StyleSheet,
   Text,
   View,
-  TouchableNativeFeedback,
+  TouchableHighlight,
+  TextInput,
+  Navigator,
+  NativeModules,
 } = React;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+SCENES_STATE_MACHINE = {
+  'Welcome': {
+      'Previous': null,
+      'Next': 'Survey',
   },
-  count: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  'Welcome2': {
+      'Previous': 'Welcome',
+      'Next': 'Welcome3',
   },
-});
-
-class TodoCount extends React.Component {
-  _onPressButton() {
-    console.log("button pressed!");
-  }
-  render() {
-    const { count } = this.props.viewer.allTodos;
-    return (
-      <View style={styles.container}>
-        <Text style={styles.count}>{count} todos in total.</Text>
-        <Text>weeee</Text>
-        <TouchableNativeFeedback
-            onPress={this._onPressButton}>
-          <View style={{width: 150, height: 100, backgroundColor: 'red'}}>
-            <Text style={{margin: 30}}>Button</Text>
-          </View>
-        </TouchableNativeFeedback>
-      </View>
-    );
+  'Welcome3': {
+      'Previous': 'Welcome2',
+      'Next': 'Survey',
   }
 }
 
-export default Relay.createContainer(TodoCount, {
+WELCOME_TEXTS = {
+  'Welcome': 'Welcome to PatientConnect',
+  'Welcome2': 'We help you find people you want to talk to.',
+  'Welcome3': 'To get your through this journey.'
+}
+
+var _navigator;
+BackAndroid.addEventListener('hardwareBackPress', function() {
+  console.log(_navigator.getCurrentRoutes());
+  if (_navigator && _navigator.getCurrentRoutes().length > 1) {
+    _navigator.pop();
+    return true;
+  }
+  return false;
+});
+
+
+// var SurveyForm = React.createClass({
+//   onPressSubmit: function() {
+//     var state = 'First name: ' + this.state.firstName + '\n' +
+//                 'Last name: ' + this.state.lastName + '\n' +
+//                 'Phone number: ' + this.state.phoneNumber;
+//     NativeModules.MyCustomModule.show(state);
+//     var completed = true;
+//     if (completed) {
+
+//     }
+//   },
+//   getInitialState() {
+//     return {
+//       firstName: '',
+//       lastName: '',
+//       phoneNumber: '',
+//     }
+//   },
+//   render() {
+//     console.log("here is the state" + this.state);
+//     return (
+//       <View>
+//         <TextInput
+//           placeholder='First Name'
+//           value={this.state.firstName}
+//           onChangeText={(text) => this.setState({
+//             firstName: text
+//           })}>
+//         </TextInput>
+//         <TextInput
+//           placeholder='Last Name'
+//           value={this.state.lastName}
+//           onChangeText={(text) => this.setState({
+//             lastName: text
+//           })}>
+//         </TextInput>
+//         <TextInput
+//           placeholder='Phone Number'
+//           value={this.state.phoneNumber}
+//           onChangeText={(text) => this.setState({
+//             phoneNumber: text
+//           })}
+//           keyboardType='numeric'>
+//         </TextInput>
+//         <TouchableHighlight
+//           onPress={this.onPressSubmit}>
+//           <Text>Add a new item</Text>
+//         </TouchableHighlight>
+//       </View>
+//     );
+//   }
+// });
+
+/**
+ * @class
+ * @extends React.Component
+ */
+class MySceneComponent extends React.Component {
+    render() {
+        // If name begins with Welcome:
+        if (this.props.name.indexOf('Welcome') == 0) {
+          var message = WELCOME_TEXTS[this.props.name];
+          return (
+              <View style={styles.container}>
+                  <View style={styles.navbar}>
+                    <Text style={[styles.base, styles.back]} onPress={this.props.onBack}>Previous</Text>
+                    <Text style={[styles.base, styles.forward]} onPress={this.props.onForward}>Next</Text>
+                  </View>
+                  <View>
+                      <Text> {message} </Text>
+                  </View>
+              </View>
+          );
+        } else if (this.props.name.indexOf('Survey') == 0) {
+          return (
+              <SurveyForm>
+              </SurveyForm>
+          );
+        } else {
+          return (
+            <View style={styles.survey}>
+              <Text>
+                Sorry, I do not know what this page is about.
+              </Text>
+            </View>
+          );
+        }
+    }
+}
+
+
+var LandingView = React.createClass({
+    _onRef: function (ref, indexInStack) {
+        console.log(ref);
+    },
+    render: function() {
+        return (
+            <Navigator
+                initialRoute={{name: 'Welcome', index: 0}}
+                onItemRef={this._onRef}
+                renderScene={(route, navigator, onRef) => {
+                    _navigator = navigator;
+                    return (
+                      <MySceneComponent
+                          ref={onRef}
+                          name={route.name}
+                          navigator={navigator}
+                          onForward={() => {
+                              var nextIndex = route.index + 1;
+                              navigator.push({
+                                  name: SCENES_STATE_MACHINE[route.name]['Next'],
+                                  index: nextIndex,
+                              });
+                          }}
+                          onBack={() => {
+                              if (route.index > 0) {
+                                  navigator.pop();
+                              }
+                          }}
+                          index={route.index}
+                          >
+                      </MySceneComponent>
+                  );
+                }}
+                configureScene={(route) => {
+                    if (route.sceneConfig) {
+                        return route.sceneConfig;
+                    }
+                    // TODO figure out the ideal SceneConfig.
+                    return Navigator.SceneConfigs.FloatFromRight;
+                }}>
+            </Navigator>
+        );
+    }
+});
+
+var styles = StyleSheet.create({
+    container: {
+        marginTop: 100,
+        padding: 20
+    },
+    navbar: {
+        flexDirection: 'row',
+        marginBottom: 30,
+    },
+    base: {
+        fontSize: 20,
+        color: 'blue'
+    },
+    back: {
+        flex: 1
+    },
+    forward: {}
+});
+
+export default Relay.createContainer(LandingView, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on ReindexViewer {
