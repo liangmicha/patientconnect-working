@@ -1,9 +1,10 @@
-import React from 'react-native';
-import Relay from 'react-relay';
-import Reindex from 'reindex-js';
+'use strict';
+var React = require('react-native');
+var Relay = require('react-relay');
+var Reindex = require('reindex-js');
 
 import AppRoute from './AppRoute';
-import TodoCount from './TodoCount';
+import LandingCard from './LandingCard';
 
 var {
 	NativeModules
@@ -16,7 +17,7 @@ export default class App extends React.Component {
   render() {
     return (
       <Relay.RootContainer
-        Component={TodoCount}
+        Component={LandingCard}
         route={new AppRoute} />
     );
   }

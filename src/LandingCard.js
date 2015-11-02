@@ -134,7 +134,7 @@ var LandingCard = React.createClass({
                             });
                           }}
                           index={route.index}
-                          viewer={this.props.view}
+                          viewer={this.props.viewer}
                           >
                       </MySceneComponent>
                   );
