@@ -3,8 +3,8 @@ var React = require('react-native');
 var Relay = require('react-relay');
 var Reindex = require('reindex-js');
 
-import AppRoute from './AppRoute';
-import LandingCard from './LandingCard';
+import AppRoute from './routes/AppRoute';
+import LandingCard from './components/LandingCard';
 
 var {
 	NativeModules
