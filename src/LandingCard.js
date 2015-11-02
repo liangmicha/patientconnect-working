@@ -29,7 +29,7 @@ SCENES_STATE_MACHINE = {
   },
   'Survey': {
       'Previous': 'Welcome3',
-      'Next': 'MainView',
+      'Next': 'MainView_default',
   }
 }
 
@@ -78,8 +78,11 @@ class MySceneComponent extends React.Component {
               </SurveyForm>
           );
         } else if (this.props.name.indexOf('MainView') == 0) {
+          var lst = this.props.name.split('_');
+          // TODO make sure list is 2. If not you are in big trouble :(
+          var whichTab = lst[1];
           return (
-              <MainView>
+              <MainView viewer={this.props.viewer} whichTab={whichTab} onGoto={this.props.onGoto} mainViewName={this.props.name}>
               </MainView>
           );
         } else {
@@ -123,7 +126,15 @@ var LandingCard = React.createClass({
                                   navigator.pop();
                               }
                           }}
+                          onGoto={(routeName) => {
+                            var nextIndex = route.index + 1;
+                            navigator.push({
+                               name: routeName,
+                               index: nextIndex,
+                            });
+                          }}
                           index={route.index}
+                          viewer={this.props.viewer}
                           >
                       </MySceneComponent>
                   );
@@ -133,7 +144,7 @@ var LandingCard = React.createClass({
                         return route.sceneConfig;
                     }
                     // TODO figure out the ideal SceneConfig.
-                    return Navigator.SceneConfigs.FloatFromRight;
+                    return Navigator.SceneConfigs.FadeAndroid;
                 }}>
             </Navigator>
         );
@@ -163,10 +174,7 @@ export default Relay.createContainer(LandingCard, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on ReindexViewer {
-        allTodos(first: 100) {
-          count,
-        }
-      }
-    `,
-  },
+        ${MainView.getFragment('viewer')}
+      }`
+  }
 });
