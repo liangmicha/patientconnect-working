@@ -175,6 +175,13 @@ export default Relay.createContainer(LandingCard, {
       fragment on ReindexViewer {
         allTodos(first: 1) {
           count,
+          edges {
+            node {
+              text,
+              id,
+              tldr,
+            }
+          }
         }
       }
     `,

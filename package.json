@@ -1,10 +1,13 @@
 {
   "name": "PatientConnect",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "private": true,
   "scripts": {
     "lint": "eslint index.*.* src",
-    "start": "node_modules/react-native/packager/packager.sh"
+    "start": "node_modules/react-native/packager/packager.sh",
+    "schema-fetch": "source ./reindex-env.sh && reindex schema-fetch",
+    "schema-push": "source ./reindex-env.sh && reindex schema-push --force",
+    "schema-relay": "source ./reindex-env.sh && reindex schema-relay data/schema.json"
   },
   "dependencies": {
     "react": "^0.14.0",
