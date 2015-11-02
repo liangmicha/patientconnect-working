@@ -82,7 +82,7 @@ class MySceneComponent extends React.Component {
           // TODO make sure list is 2. If not you are in big trouble :(
           var whichTab = lst[1];
           return (
-              <MainView whichTab={whichTab} onGoto={this.props.onGoto} mainViewName={this.props.name}>
+              <MainView viewer={this.props.viewer} whichTab={whichTab} onGoto={this.props.onGoto} mainViewName={this.props.name}>
               </MainView>
           );
         } else {
@@ -134,6 +134,7 @@ var LandingCard = React.createClass({
                             });
                           }}
                           index={route.index}
+                          viewer={this.props.viewer}
                           >
                       </MySceneComponent>
                   );
@@ -173,17 +174,7 @@ export default Relay.createContainer(LandingCard, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on ReindexViewer {
-        allTodos(first: 1) {
-          count,
-          edges {
-            node {
-              text,
-              id,
-              tldr,
-            }
-          }
-        }
-      }
-    `,
-  },
+        ${MainView.getFragment('viewer')}
+      }`
+  }
 });
