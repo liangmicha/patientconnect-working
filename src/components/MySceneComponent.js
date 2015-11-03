@@ -1,6 +1,7 @@
 import React from 'react-native';
-import SurveyForm from './SurveyForm';
+import SignUpView from './SignUpView';
 import MainView from './MainView';
+import LoginView from './LoginView';
 
 const {
   BackAndroid,
@@ -14,6 +15,12 @@ const {
 } = React;
 
 var MySceneComponent = React.createClass({
+    switchToLoginView: function() {
+      this.props.onGoto('Login');
+    },
+    switchToSignUpView: function() {
+      this.props.onGoto('SignUp');;
+    },
     render: function() {
         // If name begins with Welcome:
         if (this.props.name.indexOf('Welcome') == 0) {
@@ -21,32 +28,38 @@ var MySceneComponent = React.createClass({
           return (
               <View style={styles.container}>
                   <View style={styles.navbar}>
-                    <Text style={[styles.base, styles.back]} onPress={this.props.onBack}>Previous</Text>
-                    <Text style={[styles.base, styles.forward]} onPress={this.props.onForward}>Next</Text>
+                    <Text style={[styles.base, styles.back]} onPress={this.switchToLoginView}>Login</Text>
+                    <Text style={[styles.base, styles.forward]} onPress={this.switchToSignUpView}>Sign up</Text>
                   </View>
                   <View>
                       <Text> {message} </Text>
                   </View>
               </View>
           );
-        } else if (this.props.name.indexOf('Survey') == 0) {
+        } else if (this.props.name.indexOf('SignUp') == 0) {
           return (
-              <SurveyForm onSubmit={this.props.onForward}>
-              </SurveyForm>
+              <SignUpView onGoto={this.props.onGoto}>
+              </SignUpView>
           );
         } else if (this.props.name.indexOf('MainView') == 0) {
           var lst = this.props.name.split('_');
           // TODO make sure list is 2. If not you are in big trouble :(
           var whichTab = lst[1];
           return (
-              <MainView viewer={this.props.viewer} whichTab={whichTab} onGoto={this.props.onGoto} mainViewName={this.props.name}>
+              <MainView whichTab={whichTab} onGoto={this.props.onGoto} mainViewName={this.props.name}>
               </MainView>
           );
+        } else if (this.props.name.indexOf('Login') == 0) {
+          // TODO some logic to take to mainview if person is already logged in.
+          return (
+              <LoginView onGoto={this.props.onGoto}>
+              </LoginView>
+          )
         } else {
           return (
             <View style={styles.survey}>
               <Text>
-                Sorry, I do not know what this page is about.
+                Sorry, I do not know what this page is about. {this.props.name}
               </Text>
             </View>
           );

@@ -1,56 +1,58 @@
 'use strict';
 
 var React = require('react-native');
+var Parse = require('parse/react-native');
 var { AppRegistry, StyleSheet, Text, View, TextInput, TouchableHighlight, NativeModules } = React;
 
 
-var SurveyForm = React.createClass({
+var LoginView = React.createClass({
   // Todo code this up to check to make sure things are valid.
-  onPressSubmit: function() {
-    var state = 'First name: ' + this.state.firstName + '\n' +
-                'Last name: ' + this.state.lastName + '\n' +
-                'Phone number: ' + this.state.phoneNumber;
-    NativeModules.MyCustomModule.show(state);
-    var completed = true;
-    if (completed) {
-        this.props.onSubmit();
+  signIn: function() {
+    Parse.User.logIn(this.state.username, this.state.password, {
+      success: function(user) {
+        // Do stuff after successful login.
+      },
+      error: function(user, error) {
+        // The login failed. Check error to see why.
+        NativeModules.MyCustomModule.show(error.message);
+      }
+    });
+    var currentUser = Parse.User.current();
+    if (currentUser) {
+        // do stuff with the user
+        this.props.onGoto("MainView");
+    } else {
+        // show the signup or login page
+        this.props.onGoto("SignUp");
     }
   },
   getInitialState() {
     return {
-      firstName: '',
-      phoneNumber: '',
-
+      username: '',
+      password: '',
+      phone: '',
+      email: ''
     }
   },
   render() {
-    console.log("here is the state" + this.state);
     return (
       <View>
         <TextInput
-          placeholder='First Name'
-          value={this.state.firstName}
+          placeholder='username'
+          value={this.state.username}
           onChangeText={(text) => this.setState({
-            firstName: text
+            username: text
           })}>
         </TextInput>
         <TextInput
-          placeholder='Last Name'
-          value={this.state.lastName}
+          placeholder='password'
+          value={'*'.repeat(this.state.password.length)}
           onChangeText={(text) => this.setState({
-            lastName: text
+            password: text
           })}>
-        </TextInput>
-        <TextInput
-          placeholder='Phone Number'
-          value={this.state.phoneNumber}
-          onChangeText={(text) => this.setState({
-            phoneNumber: text
-          })}
-          keyboardType='numeric'>
         </TextInput>
         <TouchableHighlight
-          onPress={this.onPressSubmit}>
+          onPress={this.signIn}>
           <Text>Submit</Text>
         </TouchableHighlight>
       </View>
@@ -87,4 +89,4 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = SurveyForm;
+module.exports = LoginView;
