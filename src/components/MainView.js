@@ -1,13 +1,20 @@
 'use strict';
 
 var React = require('react-native');
+var Parse = require('parse/react-native');
 import ProfileView from './ProfileView';
 
 var { Text, View, NativeModules } = React;
 
 var MainView = React.createClass({
+	logOut() {
+		Parse.User.logOut()
+        this.switchToWelcomeView();
+	},
+	switchToWelcomeView() {
+		this.props.onGoto('Welcome');
+	},
 	switchToPrivateMessage() {
-		NativeModules.MyCustomModule.show(this.props.whichTab);
 		if (!(this.props.whichTab == 'privateMessage')) {
 			this.props.onGoto('MainView_privateMessage');
 		}
@@ -44,6 +51,8 @@ var MainView = React.createClass({
 					<Text onPress={this.switchToSettings}> Settings
 					</Text>
 					<Text onPress={this.switchToProfile}> Profile
+					</Text>
+					<Text onPress={this.logOut}> Logout
 					</Text>
 				</View>
 			</View>

@@ -11,6 +11,7 @@ var LoginView = React.createClass({
   },
   // Todo code this up to check to make sure things are valid.
   signIn: function(onSuccessCallBack) {
+    // Check if they are arleady logged it!
     Parse.User.logIn(this.state.username, this.state.password, {
       success: function(user) {
         // Do stuff after successful login.

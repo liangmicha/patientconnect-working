@@ -1,4 +1,5 @@
 import React from 'react-native';
+var Parse = require('parse/react-native');
 import SignUpView from './SignUpView';
 import MainView from './MainView';
 import LoginView from './LoginView';
@@ -19,10 +20,9 @@ var MySceneComponent = React.createClass({
       this.props.onGoto('Login');
     },
     switchToSignUpView: function() {
-      this.props.onGoto('SignUp');;
+      this.props.onGoto('SignUp');
     },
     render: function() {
-        // If name begins with Welcome:
         if (this.props.name.indexOf('Welcome') == 0) {
           var message = WELCOME_TEXTS[this.props.name];
           return (
@@ -42,6 +42,7 @@ var MySceneComponent = React.createClass({
               </SignUpView>
           );
         } else if (this.props.name.indexOf('MainView') == 0) {
+          // If we don't have permission, should not render. view.
           var lst = this.props.name.split('_');
           // TODO make sure list is 2. If not you are in big trouble :(
           var whichTab = lst[1];

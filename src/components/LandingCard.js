@@ -1,4 +1,5 @@
 import React from 'react-native';
+var Parse = require('parse/react-native');
 import MySceneComponent from './MySceneComponent';
 
 const {
@@ -47,7 +48,6 @@ BackAndroid.addEventListener('hardwareBackPress', function() {
   return false;
 });
 
-
 var LandingCard = React.createClass({
     _onRef: function (ref, indexInStack) {
         console.log(ref);
@@ -77,11 +77,19 @@ var LandingCard = React.createClass({
                               }
                           }}
                           onGoto={(routeName) => {
-                            var nextIndex = route.index + 1;
-                            navigator.push({
-                               name: routeName,
-                               index: nextIndex,
-                            });
+                            if (routeName == 'Logout') {
+                              navigator.popToTop();
+                              navigator.replace({
+                                name: 'Welcome',
+                                index: 0
+                              })
+                            } else {
+                              var nextIndex = route.index + 1;
+                              navigator.push({
+                                  name: routeName,
+                                  index: nextIndex,
+                              });
+                            }
                           }}
                           index={route.index}
                           viewer={this.props.viewer}
