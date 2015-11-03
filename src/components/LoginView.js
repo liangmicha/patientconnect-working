@@ -6,25 +6,22 @@ var { AppRegistry, StyleSheet, Text, View, TextInput, TouchableHighlight, Native
 
 
 var LoginView = React.createClass({
+  onSignInSuccess: function() {
+      this.props.onGoto("MainView");
+  },
   // Todo code this up to check to make sure things are valid.
-  signIn: function() {
+  signIn: function(onSuccessCallBack) {
     Parse.User.logIn(this.state.username, this.state.password, {
       success: function(user) {
         // Do stuff after successful login.
+        onSuccessCallBack();
       },
       error: function(user, error) {
         // The login failed. Check error to see why.
         NativeModules.MyCustomModule.show(error.message);
+        Parse.User.logOut();
       }
     });
-    var currentUser = Parse.User.current();
-    if (currentUser) {
-        // do stuff with the user
-        this.props.onGoto("MainView");
-    } else {
-        // show the signup or login page
-        this.props.onGoto("SignUp");
-    }
   },
   getInitialState() {
     return {
@@ -52,7 +49,7 @@ var LoginView = React.createClass({
           })}>
         </TextInput>
         <TouchableHighlight
-          onPress={this.signIn}>
+          onPress={this.signIn.bind(this, this.onSignInSuccess)}>
           <Text>Submit</Text>
         </TouchableHighlight>
       </View>
