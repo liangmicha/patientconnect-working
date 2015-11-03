@@ -6,7 +6,7 @@ var { AppRegistry, StyleSheet, Text, View, TextInput, TouchableHighlight, Native
 
 
 var LoginView = React.createClass({
-  onSignInSuccess: function() {
+  onSignInSuccess: function(user) {
       this.props.onGoto("MainView");
   },
   // Todo code this up to check to make sure things are valid.
@@ -15,7 +15,7 @@ var LoginView = React.createClass({
     Parse.User.logIn(this.state.username, this.state.password, {
       success: function(user) {
         // Do stuff after successful login.
-        onSuccessCallBack();
+        onSuccessCallBack(user);
       },
       error: function(user, error) {
         // The login failed. Check error to see why.

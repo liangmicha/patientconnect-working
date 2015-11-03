@@ -52,10 +52,17 @@ var LandingCard = React.createClass({
     _onRef: function (ref, indexInStack) {
         console.log(ref);
     },
+    getInitialState: function() {
+      return ({login: false});
+    },
+    loginSuccessful: function() {
+      this.setState({login: true});
+    },
     render: function() {
+        var initialRoute = this.props.initialRoute;
         return (
             <Navigator
-                initialRoute={{name: 'Welcome', index: 0}}
+                initialRoute={{name: initialRoute, index: 0}}
                 onItemRef={this._onRef}
                 renderScene={(route, navigator, onRef) => {
                     _navigator = navigator;

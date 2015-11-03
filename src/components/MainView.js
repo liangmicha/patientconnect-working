@@ -39,10 +39,12 @@ var MainView = React.createClass({
 		if (message == 'default') {
 			message = 'profile';
 		}
+		var currentUser = Parse.User.current();
 		return (
 			<View>
-				<ProfileView>
-				</ProfileView>
+				<Text>
+				   Logged in as {currentUser.getUsername()}
+				</Text>
 				<View>
 					<Text onPress={this.switchToPrivateMessage}> Private Message 
 					</Text>
