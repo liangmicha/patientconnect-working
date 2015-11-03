@@ -1,8 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-import Relay from 'react-relay';
-import ProfileView from './Profile';
+import ProfileView from './ProfileView';
 
 var { Text, View, NativeModules } = React;
 
@@ -35,7 +34,7 @@ var MainView = React.createClass({
 		}
 		return (
 			<View>
-				<ProfileView viewer={this.props.viewer}>
+				<ProfileView>
 				</ProfileView>
 				<View>
 					<Text onPress={this.switchToPrivateMessage}> Private Message 
@@ -52,15 +51,4 @@ var MainView = React.createClass({
 	}
 });
 
-export default Relay.createContainer(MainView, {
-  fragments: {
-    viewer: () => Relay.QL`
-      fragment on ReindexViewer {
-		allTodos(first: 1) {
-		  count
-		}
-        ${ProfileView.getFragment('viewer')}
-      }
-    `,
-  },
-});
+module.exports = MainView;

@@ -1,25 +1,18 @@
 {
   "name": "PatientConnect",
-  "version": "0.0.4",
+  "version": "0.0.9",
   "private": true,
   "scripts": {
     "lint": "eslint index.*.* src",
-    "start": "node_modules/react-native/packager/packager.sh",
-    "schema-fetch": "source ./reindex-env.sh && reindex schema-fetch",
-    "schema-push": "source ./reindex-env.sh && reindex schema-push --force",
-    "schema-relay": "source ./reindex-env.sh && reindex schema-relay data/schema.json"
+    "start": "node_modules/react-native/packager/packager.sh"
   },
   "dependencies": {
-    "react": "^0.14.0",
-    "react-dom": "^0.14.0",
-    "react-native": "^0.11.4",
-    "react-relay": "^0.3.2",
-    "reindex-js": "^0.3.0",
-    "tcomb-form-native": "^0.2.8"
+    "react-native": "^0.13.0",
+    "parse-react": "^0.5.0",
+    "babel-relay-plugin": "^0.2.6"
   },
   "devDependencies": {
     "babel-eslint": "^4.1.3",
-    "babel-relay-plugin": "^0.2.6",
     "eslint": "^1.6.0",
     "eslint-config-airbnb": "^0.1.0",
     "eslint-plugin-react": "^3.5.1"
