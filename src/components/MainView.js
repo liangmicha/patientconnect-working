@@ -32,11 +32,8 @@ var MainView = React.createClass({
 		var section = ( <View> </View> );
 		if (this.state.view == 'Profile') {
 			section = (
-				<View>
-					<Text>
-						Logged in as {this.props.user.username}
-					</Text>
-				</View>
+				<ProfileView user={this.props.user}>
+				</ProfileView>
 			);
 		} else if (this.state.view == 'PrivateMessages') {
 			section = (
@@ -67,6 +64,8 @@ var MainView = React.createClass({
 			<View>
 				{section}
 				<View>
+				    <Text> Logged in as {this.props.user.username}
+				    </Text>
 					<Text onPress={this.switchToPrivateMessage}> Private Message 
 					</Text>
 					<Text onPress={this.switchToGroups}> Groups

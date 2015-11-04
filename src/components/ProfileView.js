@@ -8,8 +8,10 @@ var ProfileView = React.createClass({
 	render() {
 		return (
 			<View>
-			    <Text>
-				Profile view is here.
+				<Text>
+					username: {this.props.user.username}
+					profile: {this.props.user.profile}
+					phone: {this.props.user.phone}
 				</Text>
 			</View>
 		);
