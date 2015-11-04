@@ -14,5 +14,19 @@ Decided not to use relay. Going with Parse backend because set up is easier.
 I should think about using Reect Router instead of this hacking navigation.
 I also found myself doing too much hacking lately, instead, let's look at some examples.
 
+--
+Once I am logged in, how do I know what user I am logged in as? => done
 
-Once I am logged in, how do I know what user I am logged in as?
+Next, try to link a Profile model with the user. Use 1:1 Mapping.
+
+
+Once you sign in, check out your profile.
+
+user
+location
+languages
+currentLocation
+
+--
+
+Figure out how queries work. Are they in parallel or sequential?

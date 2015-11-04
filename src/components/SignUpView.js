@@ -7,18 +7,7 @@ var { AppRegistry, StyleSheet, Text, View, TextInput, TouchableHighlight, Native
 
 var SignUpView = React.createClass({
   // Todo code this up to check to make sure things are valid.
-  onPressSubmit: function() {
-    var state = 'First name: ' + this.state.username + '\n' +
-                'Password: ' + this.state.password + '\n' +
-                'Phone number: ' + this.state.phone + '\n' + 
-                'Email: ' + this.state.email + '\n';
-    
-  },
-  onSuccessLogin: function() {
-    // DO SOMETHING like go to Login view.
-    this.props.onGoto('Login');
-  },
-  signUp: function(onSuccessCallBack) {
+  signUp: function() {
         var user = new Parse.User();
         user.set("username", this.state.username);
         user.set("password", this.state.password);
@@ -27,7 +16,7 @@ var SignUpView = React.createClass({
         user.signUp(null, {
           success: function(user) {
             // Hooray! Let them use the app now.
-            onSuccessCallBack();
+            NativeModules.MyCustomModule.show("successful signup!");
           },
           error: function(user, error) {
             // Show the error message somewhere and let the user try again.
@@ -76,7 +65,7 @@ var SignUpView = React.createClass({
           keyboardType='numeric'>
         </TextInput>
         <TouchableHighlight
-          onPress={this.signUp.bind(this, this.onSuccessLogin)}>
+          onPress={this.signUp}>
           <Text>Submit</Text>
         </TouchableHighlight>
       </View>

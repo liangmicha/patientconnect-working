@@ -1,5 +1,6 @@
 import React from 'react-native';
 var Parse = require('parse/react-native');
+var ParseReact = require('parse-react/react-native');
 import MySceneComponent from './MySceneComponent';
 
 const {
@@ -49,20 +50,19 @@ BackAndroid.addEventListener('hardwareBackPress', function() {
 });
 
 var LandingCard = React.createClass({
+    mixins: [ParseReact.Mixin],
     _onRef: function (ref, indexInStack) {
         console.log(ref);
     },
-    getInitialState: function() {
-      return ({login: false});
-    },
-    loginSuccessful: function() {
-      this.setState({login: true});
+    observe: function(props, state) {
+      return {
+        initialRoute: props.initialRoute
+      };
     },
     render: function() {
-        var initialRoute = this.props.initialRoute;
         return (
             <Navigator
-                initialRoute={{name: initialRoute, index: 0}}
+                initialRoute={{name: this.data.initialRoute, index: 0}}
                 onItemRef={this._onRef}
                 renderScene={(route, navigator, onRef) => {
                     _navigator = navigator;

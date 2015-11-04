@@ -7,44 +7,65 @@ import ProfileView from './ProfileView';
 var { Text, View, NativeModules } = React;
 
 var MainView = React.createClass({
-	logOut() {
-		Parse.User.logOut()
-        this.switchToWelcomeView();
-	},
-	switchToWelcomeView() {
-		this.props.onGoto('Welcome');
-	},
-	switchToPrivateMessage() {
-		if (!(this.props.whichTab == 'privateMessage')) {
-			this.props.onGoto('MainView_privateMessage');
+	getInitialState() {
+		return {
+		    view: 'Profile'
 		}
+	},
+	logOut() {
+		Parse.User.logOut();
+	},
+	// TODO add logic to NOT set state if the same.
+	switchToPrivateMessage() {
+		this.setState({view: 'PrivateMessages'});
 	},
 	switchToGroups() {
-		if (!(this.props.whichTab == 'groups' || this.props.whichTab == 'default')) {
-			this.props.onGoto('MainView_groups');
-	    }
+		this.setState({view: 'Groups'});
 	},
 	switchToSettings() {
-		if (!(this.props.whichTab == 'settings')) {
-		    this.props.onGoto('MainView_settings');
-		}
+		this.setState({view: 'Settings'});
 	},
 	switchToProfile() {
-		if (!(this.props.whichTab == 'profile')) {
-			this.props.onGoto('MainView_profile');
-		}
+		this.setState({view: 'Profile'});
 	},
 	render() {
-		var message = this.props.whichTab;
-		if (message == 'default') {
-			message = 'profile';
+		var section = ( <View> </View> );
+		if (this.state.view == 'Profile') {
+			section = (
+				<View>
+					<Text>
+						Logged in as {this.props.user.username}
+					</Text>
+				</View>
+			);
+		} else if (this.state.view == 'PrivateMessages') {
+			section = (
+				<View>
+					<Text>
+						Filler for Private Messages for now.
+					</Text>
+				</View>
+			);
+		} else if (this.state.view == 'Settings') {
+			section = (
+				<View>
+					<Text>
+						Filler for Settings for now.
+					</Text>
+				</View>
+			);	
+		} else if (this.state.view == 'Groups') {
+			section = (
+				<View>
+					<Text>
+						Filler for Groups for now.
+					</Text>
+				</View>
+			);	
 		}
-		var currentUser = Parse.User.current();
 		return (
 			<View>
-				<Text>
-				   Logged in as {currentUser.getUsername()}
-				</Text>
+				{section}
 				<View>
 					<Text onPress={this.switchToPrivateMessage}> Private Message 
 					</Text>
