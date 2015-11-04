@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 
+import com.parse.ParseInstallation;
+import com.parse.Parse;
 import com.facebook.react.LifecycleState;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.learnium.RNDeviceInfo.*;
 
 public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
 
@@ -19,6 +22,8 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Parse.initialize(this, "WTAN135mlF1cqo5eL7IRFpDKztxSRdPKLZWmrcOL", "a3EOsvfKbGQDFLUIDyzd26pTCYvI4VGURcsXR8bj");
+        ParseInstallation.getCurrentInstallation().saveInBackground();
         mReactRootView = new ReactRootView(this);
 
         mReactInstanceManager = ReactInstanceManager.builder()
@@ -27,6 +32,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
                 .setJSMainModuleName("index.android")
                 .addPackage(new MainReactPackage())
                 .addPackage(new ComponentPackager())
+                .addPackage(new RNDeviceInfo())
                 .setUseDeveloperSupport(BuildConfig.DEBUG)
                 .setInitialLifecycleState(LifecycleState.RESUMED)
                 .build();

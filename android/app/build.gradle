@@ -27,4 +27,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.0.0'
     compile 'com.facebook.react:react-native:0.13.+'
     compile 'com.pubnub:pubnub-android:3.7.5'
+    compile project(':RNDeviceInfo')
+    compile 'com.parse.bolts:bolts-android:1.+'
+    compile 'com.parse:parse-android:1.+'
 }
